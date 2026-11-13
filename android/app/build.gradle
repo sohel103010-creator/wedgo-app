@@ -24,7 +24,7 @@ if (flutterVersionName == null) {
 
 android {
     namespace = "com.wedgo.matrimony"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.wedgo.matrimony"
