@@ -18,7 +18,7 @@
 workflows:
   wedgo-android-debug:
     name: WedGo Android APK (debug)
-    instance_type: linux_x2
+    instance_type: linux_
     max_build_duration: 60
     environment:
       flutter: stable
