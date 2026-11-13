@@ -1,0 +1,77 @@
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    id "dev.flutter.flutter-gradle-plugin"
+}
+
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader('UTF-8') { reader ->
+        localProperties.load(reader)
+    }
+}
+
+def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
+if (flutterVersionCode == null) {
+    flutterVersionCode = '1'
+}
+
+def flutterVersionName = localProperties.getProperty('flutter.versionName')
+if (flutterVersionName == null) {
+    flutterVersionName = '1.0.0'
+}
+
+android {
+    namespace = "com.wedgo.matrimony"
+    compileSdk = 34
+
+    defaultConfig {
+        applicationId = "com.wedgo.matrimony"
+        minSdk = 24
+        targetSdk = 34
+        versionCode = flutterVersionCode.toInteger()
+        versionName = flutterVersionName
+        multiDexEnabled = true
+    }
+
+    signingConfigs {
+        release {
+            // Play upload key. NEVER commit the keystore or passwords.
+            // Provide via environment or ~/.gradle/gradle.properties:
+            //   WEDGO_KEYSTORE, WEDGO_KEY_ALIAS, WEDGO_KEY_PASSWORD, WEDGO_STORE_PASSWORD
+            storeFile = System.getenv("WEDGO_KEYSTORE") != null
+                ? file(System.getenv("WEDGO_KEYSTORE")) : null
+            storePassword = System.getenv("WEDGO_STORE_PASSWORD")
+            keyAlias = System.getenv("WEDGO_KEY_ALIAS")
+            keyPassword = System.getenv("WEDGO_KEY_PASSWORD")
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig = signingConfigs.release
+            minifyEnabled = true
+            shrinkResources = true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'),
+                'proguard-rules.pro'
+        }
+        debug {
+            // Debug builds sign with the default debug key automatically.
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+}
+
+flutter {
+    source = "../.."
+}
+
+dependencies {}
