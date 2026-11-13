@@ -7,9 +7,11 @@
 #   3. Start a build with workflow "wedgo-android-debug".
 #   4. When finished, download  app-debug.apk  from build artifacts and
 #      install it on the phone (allow "Install unknown apps").
-#   5. On first launch the app shows a Setup screen: paste the Supabase
-#      Project URL and anon/publishable key there. Keys are typed on the
-#      phone only -- they are NOT in this repo and NOT baked into the build.
+#   5. Supabase keys are baked into the build from ENCRYPTED Codemagic
+#      environment variables (SUPABASE_URL / SUPABASE_ANON_KEY, set in the
+#      Codemagic dashboard, never in this repo). First launch goes straight
+#      to login/register — no Setup screen. If the build ever lacks them,
+#      the app falls back to the in-app Setup screen (paste on the phone).
 #
 # What this builds: a DEBUG-signed APK. Debug signing is automatic, no
 # keystore needed, and it installs fine for personal testing. For Play
@@ -22,6 +24,8 @@ workflows:
     max_build_duration: 60
     environment:
       flutter: stable
+      groups:
+        - supabase
     scripts:
       - name: Prepare Android build assets
         script: |
@@ -33,6 +37,6 @@ workflows:
           flutter pub get
       - name: Build debug APK (no keystore needed)
         script: |
-          flutter build apk --debug
+          flutter build apk --debug --dart-define SUPABASE_URL=$SUPABASE_URL --dart-define SUPABASE_ANON_KEY=$SUPABASE_ANON_KEY
     artifacts:
       - build/app/outputs/flutter-apk/app-debug.apk
