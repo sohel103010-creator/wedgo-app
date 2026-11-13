@@ -24,12 +24,12 @@ if (flutterVersionName == null) {
 
 android {
     namespace = "com.wedgo.matrimony"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.wedgo.matrimony"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = flutterVersionCode.toInteger()
         versionName = flutterVersionName
         multiDexEnabled = true

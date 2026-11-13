@@ -26,13 +26,13 @@ workflows:
       - name: Prepare Android build assets
         script: |
           chmod +x android/gradlew
-          curl -L -o android/gradle/wrapper/gradle-wrapper.jar https://raw.githubusercontent.com/gradle/gradle/v8.7.0/gradle/wrapper/gradle-wrapper.jar
+          curl -L -o android/gradle/wrapper/gradle-wrapper.jar https://raw.githubusercontent.com/gradle/gradle/v9.3.1/gradle/wrapper/gradle-wrapper.jar
           python3 tools/gen_icon.py
       - name: Get Flutter packages
         script: |
           flutter pub get
       - name: Build debug APK (no keystore needed)
         script: |
-          flutter build apk --debug --android-skip-build-dependency-validation
+          flutter build apk --debug
     artifacts:
       - build/app/outputs/flutter-apk/app-debug.apk
