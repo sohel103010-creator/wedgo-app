@@ -21,6 +21,7 @@ import 'screens/withdraw.dart';
 import 'screens/verification.dart';
 import 'screens/notifications.dart';
 import 'screens/settings.dart';
+import 'widgets/secure_screen.dart';
 
 class WedGoApp extends ConsumerWidget {
   const WedGoApp({super.key});
@@ -47,6 +48,11 @@ class WedGoApp extends ConsumerWidget {
         fontFamily: 'NotoSansBengali',
       ),
       themeMode: ThemeMode.system,
+      // Global screenshot block: FLAG_SECURE is ON for everyone except an
+      // active admin session (see SecureFlagSync). This also covers calls
+      // and verification screens — screens must not toggle it themselves.
+      builder: (context, child) =>
+          SecureFlagSync(child: child ?? const SizedBox.shrink()),
       home: const SplashScreen(),
       onGenerateRoute: (settings) {
         Widget page;

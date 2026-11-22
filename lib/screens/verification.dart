@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import '../providers/auth.dart';
 import '../services/supabase_client.dart';
-import '../widgets/secure_screen.dart';
 
 /// Verification Center: view status + submit selfie/video/identity.
 /// Files go to the private verification-files bucket (never public).
@@ -21,17 +20,8 @@ class _VerificationScreenState
   bool _busy = false;
   String? _error;
 
-  @override
-  void initState() {
-    super.initState();
-    SecureScreen.set(true); // sensitive document screens
-  }
-
-  @override
-  void dispose() {
-    SecureScreen.set(false);
-    super.dispose();
-  }
+  // NOTE: no SecureScreen toggling here — the global SecureFlagSync
+  // (MaterialApp builder) owns FLAG_SECURE for the whole app.
 
   Future<void> _submitKind(String kind) async {
     setState(() {
